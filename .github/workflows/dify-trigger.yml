@@ -2,17 +2,21 @@ name: Trigger Dify Workflow
 
 on:
   schedule:
-    - cron: '55 1 * * *'
-  workflow_dispatch:
+    - cron: '55 1 * * *'  # 每天北京时间 9:55 触发
+  workflow_dispatch:       # 支持手动触发
 
 jobs:
   run-dify-workflow:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Call Dify Workflow
+      - name: Create JSON body
+        run: |
+          echo '{"inputs": {}, "response_mode": "streaming", "user": "github-action-bot"}' > payload.json
+
+      - name: Call Dify Workflow (from JSON file)
         run: |
           curl --location "https://api.dify.ai/v1/workflows/run" \
             --header "Authorization: Bearer ${{ secrets.DIFY_TOKENS }}" \
             --header "Content-Type: application/json" \
-            --data "{\"inputs\": {}, \"response_mode\": \"streaming\", \"user\": \"github-action-bot\"}"
+            --data @payload.json
