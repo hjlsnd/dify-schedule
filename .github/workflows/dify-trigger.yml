@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Create JSON body
         run: |
-          echo '{"inputs": {}, "response_mode": "streaming", "user": "github-action-bot"}' > payload.json
+          echo '{"inputs": {}, "response_mode": "blocking", "user": "github-action-bot"}' > payload.json
 
       - name: Call Dify Workflow (from JSON file)
         run: |
@@ -20,3 +20,5 @@ jobs:
             --header "Authorization: Bearer ${{ secrets.DIFY_TOKENS }}" \
             --header "Content-Type: application/json" \
             --data @payload.json
+          cat response.json | python3 -c "import sys, json; print(json.load(sys.stdin)['outputs']['text'])"
+            
