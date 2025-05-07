@@ -2,7 +2,7 @@ name: Trigger Dify Workflow
 
 on:
   schedule:
-    - cron: '55 1 * * *'  # 每天北京时间 09:55 触发（= UTC 01:55）
+    - cron: '6 2 * * *'  # 每天北京时间 09:55 触发（= UTC 01:55）
   workflow_dispatch:
 
 jobs:
