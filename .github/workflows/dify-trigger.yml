@@ -2,7 +2,7 @@ name: Trigger Dify Workflow
 
 on:
   schedule:
-    - cron: '55 1 * * *'  # 每天北京时间 09:55（= UTC 01:55）
+    - cron: '55 1 * * *'
   workflow_dispatch:
 
 jobs:
@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Call Dify Workflow
         run: |
-          curl --location "${{ secrets.DIFY_BASE_URL || 'https://api.dify.ai/v1' }}/workflows/run" \
+          curl --location "https://api.dify.ai/v1/workflows/run" \
             --header "Authorization: Bearer ${{ secrets.DIFY_TOKENS }}" \
             --header "Content-Type: application/json" \
             --data "{\"inputs\": {}, \"response_mode\": \"streaming\", \"user\": \"github-action-bot\"}"
