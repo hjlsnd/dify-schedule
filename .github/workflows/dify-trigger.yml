@@ -14,12 +14,13 @@ jobs:
         run: |
           echo '{"inputs": {}, "response_mode": "blocking", "user": "github-action-bot"}' > payload.json
 
-      - name: Call Dify Workflow (from JSON file)
+      - name: Call Dify and decode output
         run: |
           curl --silent --location "https://api.dify.ai/v1/workflows/run" \
             --header "Authorization: Bearer ${{ secrets.DIFY_TOKENS }}" \
             --header "Content-Type: application/json" \
-            --data @payload.json
-            
+            --data @payload.json > response.json
+      
           cat response.json | python3 -c "import sys, json; print(json.load(sys.stdin)['outputs']['text'])"
+
             
